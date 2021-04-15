@@ -3,3 +3,7 @@
 3. Generate graph from data
 4. Map website using BFS search
 5. Output map like 'tree'
+
+Misc:
+
+	1. devdungeon.com/content/how-write-command-line-tools
