@@ -1,0 +1,5 @@
+1. Fetch data /w curl
+2. Parse HTML /w htmltidy.c https://curl.se/libcurl/c/htmltidy.html
+3. Generate graph from data
+4. Map website using BFS search
+5. Output map like 'tree'
