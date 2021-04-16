@@ -7,3 +7,4 @@
 Misc:
 
 	1. devdungeon.com/content/how-write-command-line-tools
+	2. https://www.gnu.org/prep/standards/standards.html#Standard-C
