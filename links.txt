@@ -7,4 +7,8 @@
 Misc:
 
 	1. devdungeon.com/content/how-write-command-line-tools
+<<<<<<< HEAD
 	2. output as tree: ls -aR | grep ":$" | perl -pe 's/:$//;s/[^-][^\/]*\//    /g;s/^    (\S)/└── \1/;s/(^    |    (?= ))/│   /g;s/    (\S)/└── \1/'
+=======
+	2. https://www.gnu.org/prep/standards/standards.html#Standard-C
+>>>>>>> 6e63ae89f87d05e41d77c8f933287eee6c5f6d8c
