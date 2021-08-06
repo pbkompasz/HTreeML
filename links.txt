@@ -12,3 +12,5 @@ Misc:
 =======
 	2. https://www.gnu.org/prep/standards/standards.html#Standard-C
 >>>>>>> 6e63ae89f87d05e41d77c8f933287eee6c5f6d8c
+
+https://www.cyberciti.biz/faq/linux-unix-creating-a-manpage/\?__cf_chl_captcha_tk__\=pmd_0c9e75805d9513f6333229a765d9ee38d42c2a54-1628167338-0-gqNtZGzNAw2jcnBszQiO
