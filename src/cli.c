@@ -1,6 +1,7 @@
 #include <stdio.h>
-
-
+#include <stdbool.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 void print_help() {
 
@@ -30,4 +31,19 @@ for any corresponding short options.\n\
 Report bugs to cjwatson@debian.org.";
 
 	printf("%s", help_text);
+}
+
+void parse_args(int argc, char *argv[]) {
+	int opt;
+	enum { CHARACTER_MODE, WORD_MODE, LINE_MODE } mode = CHARACTER_MODE;
+	while ((opt = getopt(argc, argv, "lw")) != -1) {
+		switch (opt) {
+        	case 'l': printf("line mode"); break;
+        	case 'w': printf("word mode"); break;
+        	default:
+            		fprintf(stderr, "Usage: %s [-ilw] [file...]\n", argv[0]);
+            		exit(EXIT_FAILURE);
+        	}
+	}
+	
 }
