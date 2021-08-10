@@ -24,8 +24,12 @@ struct website {
 
 // Return raw HTML of a website
 // url - address of website
-// options:
-char* fetch_website(char* url);
+char fetch_website(char* url);
+
+// Return array of raw HTML
+// urls - array of addresses of websites
+char* fetch_websites_chunk(char* urls[]);
+
 
 // Parse a website
 // Return a pointer to a website struct
