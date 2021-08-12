@@ -3,7 +3,11 @@
 #include "util.h"
 
 int main(int argc, char *argv[]) {
-    struct control cl;
+    struct control cl = {
+        .lines_per_screen = 1,
+        .max_search_depth = 3,
+        0 
+    };
 
 
 	argscan(argc, argv, &cl);
