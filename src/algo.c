@@ -1,9 +1,10 @@
 #include "algo.h"
 #include <stdio.h>
 #include <string.h>
+#include "util.h"
 
-
-void run() {
+void run(struct control *cl) {
+    printf("%s %i \n", cl->parent_url, cl->max_search_depth);    
 }
 
 char fetch_website(char* url) {
@@ -51,5 +52,5 @@ char* dfs_recursive(struct website* website, int max_depth) {
 	
 }
 
-char* dfs_iterative(struct website* website, int max_depth); 
-
+char* dfs_iterative(struct website* website, int max_depth) { 
+}

@@ -9,13 +9,7 @@ int main(int argc, char *argv[]) {
         0 
     };
 
-
 	argscan(argc, argv, &cl);
-
-    printf("asd");
-
-//	fetch_website("https://berkshirehathaway.com/");
-//	fetch_website("https://berkshirehathaway.com/2021ProxyStmt.pdf");
-//	usage();
+    run(&cl);    
 	return 0;
 }
