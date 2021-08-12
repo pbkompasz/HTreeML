@@ -12,6 +12,7 @@ char fetch_website(char* url) {
  
   	curl = curl_easy_init();
     int this;
+        printf("%i", 1+1);
   	if(curl) {
     	struct curl_slist *chunk = NULL;
  
