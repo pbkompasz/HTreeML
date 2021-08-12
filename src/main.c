@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
 
 	argscan(argc, argv, &cl);
 
+    printf("asd");
 
 //	fetch_website("https://berkshirehathaway.com/");
 //	fetch_website("https://berkshirehathaway.com/2021ProxyStmt.pdf");
