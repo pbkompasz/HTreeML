@@ -3,15 +3,16 @@
 #include <string.h>
 #include "util.h"
 
-void run(struct control *cl) {
-    printf("%s %i \n", cl->parent_url, cl->max_search_depth);    
-    fetch_website(cl->parent_url);
-}
-
 struct string {
     char *ptr;
     size_t len;
 };
+
+void run(struct control *cl) {
+    char *result = fetch_website(cl->parent_url);
+    free(result); 
+    parse_website(result);
+}
 
 void init_string(struct string *s) {
     s->len = 0;
@@ -37,7 +38,7 @@ size_t writefunc(void *ptr, size_t size, size_t nmemb, struct string *s) {
     return size*nmemb;
 }
 
-char fetch_website(char* url) {
+char *fetch_website(char* url) {
 	CURL *curl;
   	CURLcode res;
     
@@ -70,16 +71,14 @@ char fetch_website(char* url) {
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
                 curl_easy_strerror(res));
  
-        printf("DATA\n%s\nDATA\n", s.ptr);
-        free(s.ptr); 
-
-        /* always cleanup */
+                /* always cleanup */
         curl_easy_cleanup(curl);
  
         /* free the custom headers */
         curl_slist_free_all(chunk);
     }
-    return 0;
+
+    return s.ptr;
 }
 
 char* fetch_websites_chunk(char* urls[]) {
@@ -87,7 +86,8 @@ char* fetch_websites_chunk(char* urls[]) {
 }
 
 struct website* parse_website(char* webpage) {
-	
+    struct website parsed;
+    	
 }
 
 char* dfs_recursive(struct website* website, int max_depth) {
