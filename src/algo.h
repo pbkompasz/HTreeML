@@ -6,7 +6,7 @@
 
 #define MAX_PARALLEL 10
 
-struct website {
+typedef struct website {
 	// Website address
 	char* address;
 	// 0 - root of website /
@@ -16,10 +16,10 @@ struct website {
 	// HTML of website
 	char* data;
 	// Internal links 
-	char* children;
+	struct website* children;
 	// External links
 	char* step_children;
-};
+} website;
 
 // Return raw HTML of a website
 // url - address of website
