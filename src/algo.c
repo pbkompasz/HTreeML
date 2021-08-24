@@ -8,13 +8,16 @@ struct string {
     size_t len;
 };
 
-char* get_website_children(char*);
+void get_website_children(char*, char***, size_t* );
 
 void run(struct control *cl) {
     char *result = fetch_website(cl->parent_url);
     //parse_website(result);
-    get_website_children(result);
-    //printf("%s\n", result);
+    char** children = malloc(1 * sizeof(char*));
+    size_t no_children = 0;
+    get_website_children(result, &children, &no_children);
+    //doit(&children);
+    printf("%s %s\n", children[0], children[1]);
     free(result); 
 }
 
@@ -86,35 +89,68 @@ char *fetch_website(char* url) {
 }
 
 char* fetch_websites_chunk(char* urls[]) {
-   }
+   
+}
 
-char* get_website_children(char* webpage) {
+void doit(char*** strs) {
+    (*strs)[0] = "asd";
+    (*strs) = realloc(*strs, 2 * sizeof(char*));
+    
+    char* text = "asdfdas";
+    (*strs)[1] = (char*)calloc(5, sizeof(char*));
+    memcpy( (*strs)[1], text + 1, 5);
+    //(*strs)[1] = "asdfdasfds";
+}
+
+void get_website_children(char* webpage, char*** children, size_t *no_children) {
     const char* pattern = "a href=\"";
     const long int webpage_length = strlen(webpage);
 
     int i = 0, j = 0;
+    *no_children = 0;
+    //children = malloc(1 * sizeof(char*));
     for (i = 0; i < webpage_length; i++) {
         for (j = 0; j < 8; j++) {
             if ( webpage[i + j] != pattern[j] || i + j > webpage_length) {
                 break;
             }
             if (j == 7) {
+                (*children) = realloc(*children, (*no_children + 1) * sizeof(char*));
                 int k = 1;
-                //printf("%c", webpage[k]);
                 
                 while ( k < webpage_length && webpage[i + j + k + 1] != '\"') {
                     //printf("%c", webpage[k]);
                     k++;
                 }
-                char *word;
-                word = (char*)calloc(k, sizeof(char));
-                memcpy( word, &webpage[i + j + 1], k);
-                printf("%s\n", word);
-                free(word);
+                (*children)[(*no_children)] = (char*)calloc(k, sizeof(char*));
+
+                if ((*children)[(*no_children)] == NULL) {
+                    fprintf(stderr, "malloc() failed\n");
+                    exit(EXIT_FAILURE);
+                }
+
+
+                memcpy( (*children)[(*no_children)], webpage + i + j + 1, k);
+               // printf("%s\n", (*children)[(*no_children)]);
+                
+                (*no_children)++;
             }
         }
     }
-    return NULL;
+
+}
+
+// Check if name is a route or external link (e.g. contains .pdf, http)
+int is_external(char *name) {
+    char *key_words[] = {"pdf", "http"}; 
+    size_t key_words_length = 2;
+    int i;
+    for(i = 0; i < key_words_length; i++) {
+        if (strstr(name, key_words[i])) {
+            return i;    
+        }
+    }
+    return 0;
 }
 
 struct website* parse_website(char* webpage) {
