@@ -41,7 +41,7 @@ void get_website_children(char* webpage, char*** children, size_t *no_children, 
                 memcpy(word, webpage + i + j + 1, k);        
                 if (is_external(word)) {
                     (*step_children) = realloc(*step_children, (*no_step_children + 1) * sizeof(char*));
-                    printf("external %s\n", word);
+//                    printf("external %s\n", word);
                     (*step_children)[(*no_step_children)] = (char*)calloc(k, sizeof(char*));
 
                     if ((*step_children)[(*no_step_children)] == NULL) {
@@ -54,7 +54,7 @@ void get_website_children(char* webpage, char*** children, size_t *no_children, 
                 } else {
                     (*children) = realloc(*children, (*no_children + 1) * sizeof(char*));
                     (*children)[(*no_children)] = (char*)calloc(k, sizeof(char*));
-                    printf("internal %s\n", word);
+  //                  printf("internal %s\n", word);
 
                     if ((*children)[(*no_children)] == NULL) {
                         fprintf(stderr, "malloc() failed\n");
@@ -112,7 +112,11 @@ struct website* parse_website(struct control *cl, char *name, int level) {
         free(children[i]);
     }
     for(i = 0; i < no_step_children; i++) {
-        printf("%s\n", parsed.step_children[i]);
+//        if (level > 0) {
+ //           printf("|");
+  //      }
+   //     for(i = 0;i < level; i++) printf("-");
+    //    printf("%s\n", parsed.step_children[i]);
         free(step_children[i]);
     }
 
