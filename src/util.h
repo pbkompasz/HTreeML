@@ -36,4 +36,8 @@ int is_external(char *address);
 // Scan for arguments
 void argscan(int argc, char *argv[], struct control *cl);
 
+char* fetch_website(char *);
+
+char* fetch_websites_chunk(char* urls[]);
+
 #endif

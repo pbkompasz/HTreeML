@@ -10,6 +10,6 @@ int main(int argc, char *argv[]) {
     };
 
 	argscan(argc, argv, &cl);
-    run(&cl);    
+    tree(&cl);    
 	return 0;
 }
