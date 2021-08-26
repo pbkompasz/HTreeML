@@ -1,40 +1,10 @@
 #include "algo.h"
 
-typedef struct website {
-	// Website address
-	char* address;
-	// 0 - root of website /
-	// 1 - /vehicle
-	// 2 - /vehicle/1
-	int level;
-	// HTML of website
-	char* data;
-	// Internal links 
-	struct website* children;
-	// External links
-	char* step_children;
-} website;
-
-
 void get_website_children(char*, char***, size_t*, char***, size_t*);
+struct website *parse_website(struct control*, char*, int);
 
 void tree(struct control *cl) {
-    char *result = fetch_website(cl->parent_url);
-    //parse_website(result);
-    char **children = malloc(1 * sizeof(char*)), 
-         **step_children = malloc(1 * sizeof(char*));
-    size_t no_children = 0, no_step_children = 0;
-    get_website_children(result, &children, &no_children, &step_children, &no_step_children);
-    int i;
-    for(i = 0; i < no_children; i++) {
-        free(children[i]);
-    }
-    for(i = 0; i < no_step_children; i++) {
-       free(step_children[i]);
-    }
-
-    free(children); 
-    free(step_children); 
+    parse_website(cl, "", 0);
 } 
 
 void doit(char*** strs) {
@@ -66,11 +36,12 @@ void get_website_children(char* webpage, char*** children, size_t *no_children, 
                     //printf("%c", webpage[k]);
                     k++;
                 } 
-/*                printf("%i", k);*
-                char *word = (char*)malloc(k * sizeof(char*));
+                char *word;
+                word = (char*)calloc(k, sizeof(char*));
                 memcpy(word, webpage + i + j + 1, k);        
                 if (is_external(word)) {
                     (*step_children) = realloc(*step_children, (*no_step_children + 1) * sizeof(char*));
+                    printf("external %s\n", word);
                     (*step_children)[(*no_step_children)] = (char*)calloc(k, sizeof(char*));
 
                     if ((*step_children)[(*no_step_children)] == NULL) {
@@ -83,6 +54,7 @@ void get_website_children(char* webpage, char*** children, size_t *no_children, 
                 } else {
                     (*children) = realloc(*children, (*no_children + 1) * sizeof(char*));
                     (*children)[(*no_children)] = (char*)calloc(k, sizeof(char*));
+                    printf("internal %s\n", word);
 
                     if ((*children)[(*no_children)] == NULL) {
                         fprintf(stderr, "malloc() failed\n");
@@ -90,7 +62,7 @@ void get_website_children(char* webpage, char*** children, size_t *no_children, 
                     }
                     memcpy( (*children)[(*no_children)], webpage + i + j + 1, k);
                     (*no_children)++;
-                } */
+                } 
                 
             }
         }
@@ -98,24 +70,55 @@ void get_website_children(char* webpage, char*** children, size_t *no_children, 
 
 }
 
-// Check if name is a route or external link (e.g. contains .pdf, http)
-int is_external(char *name) {
-    return 1; 
 
-    char *key_words[] = {"pdf", "http"}; 
-    size_t key_words_length = 2;
-    int i;
-    for(i = 0; i < key_words_length; i++) {
-        if (strstr(name, key_words[i])) {
-            return i;    
-        }
+
+struct website* parse_website(struct control *cl, char *name, int level) {
+    
+    if (level > cl->max_search_depth) {
+        return NULL;
     }
-    return 0;
-}
+    struct website parsed;	
+    char **children = malloc(1 * sizeof(char*)), 
+        **step_children = malloc(1 * sizeof(char*));
+    size_t no_children = 0, no_step_children = 0;
+    
+    
+    parsed.no_children = no_children;
+    parsed.no_step_children = no_step_children;
+    parsed.level = level;
+    parsed.address = (char*)calloc((sizeof(cl->parent_url) + sizeof(name)), sizeof(char*));
+    strcat(strcat(strcat(parsed.address, cl->parent_url), "/"), name);
+    parsed.data = fetch_website(parsed.address); 
+    get_website_children(parsed.data, &children, &no_children, &step_children, &no_step_children);
+    parsed.children = (struct website*)malloc(no_children * sizeof(struct website*));    
+    parsed.step_children = (char**)malloc(no_step_children * sizeof(char**));    
+    
+    int i;
+    if (level > 0) {
+        printf("|");
+    }
+    for(i = 0;i < level; i++) printf("-");
+    printf("%s\n", name);
+    
+    for(i = 0; i < no_children; i++) {
+        parse_website(cl, children[i],  level+1);
+    } 
+    for(i = 0; i < no_step_children; i++) {
+        parsed.step_children[i] = step_children[i];
+    }
 
-struct website* parse_website(char* webpage) {
-    struct website parsed;
-    	
+    // Cleanup
+    for(i = 0; i < no_children; i++) {
+        free(children[i]);
+    }
+    for(i = 0; i < no_step_children; i++) {
+        printf("%s\n", parsed.step_children[i]);
+        free(step_children[i]);
+    }
+
+    free(children); 
+    free(step_children);
+    return &parsed; 
 }
 
 char* dfs_recursive(struct website* website, int max_depth) {

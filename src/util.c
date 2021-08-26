@@ -14,6 +14,20 @@ int check_url(char* url) {
     return reti;    
 }
 
+// Check if name is a route or external link (e.g. contains .pdf, http)
+int is_external(char *name) {
+    char *key_words[] = {"pdf", "http", "https", "www."}; 
+    size_t key_words_length = 3;
+    int i;
+    for(i = 0; i < key_words_length; i++) {
+        //printf("%s %s\n", name, key_words[i]);
+        if (strstr(name, key_words[i])) {
+            return 1;    
+        }
+    }
+    return 0;
+}
+
 void argscan(int argc, char *argv[], struct control *cl) {
 	int opt;
 	int digit_optind = 0;
@@ -124,7 +138,7 @@ char *fetch_website(char* url) {
 	CURL *curl;
   	CURLcode res;
     
-    printf("Fetching site\n");
+    //printf("Fetching site for urL: %s\n", url);
     
     struct string s;
     init_string(&s);

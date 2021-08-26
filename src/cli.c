@@ -30,4 +30,15 @@ void __attribute__((__noreturn__)) usage(void) {
 	exit(EXIT_SUCCESS);
 }
 
+void print_error(char* error) {
+
+}
+
+void print_result() {
+/*    printf("%s\n",  website->address);
+    int i = 0;
+    for(i = 0; i < website->no_children; i++) {
+        printf("|_ %s\n", website->children[i].address);
+    }*/
+}
 
