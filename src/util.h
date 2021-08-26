@@ -12,6 +12,7 @@
 #include <curl/curl.h>
 #include "cli.h"
 
+// Main program struct
 struct control {
     char *parent_url;           // the main url = domain
     int lines_per_screen;       // output
@@ -26,15 +27,13 @@ struct control {
     CURL *curl;
 } control;
 
-struct MemoryStruct {
-	char *memory;
-	size_t size;
-};
-
-size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
-
+// Check if it is a valid url
 int check_url(char* url);
 
+// Check if address points to external is address
+int is_external(char *address);
+
+// Scan for arguments
 void argscan(int argc, char *argv[], struct control *cl);
 
 #endif

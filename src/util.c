@@ -14,24 +14,6 @@ int check_url(char* url) {
     return reti;    
 }
 
-size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp) {
-	size_t realsize = size * nmemb;
-	struct MemoryStruct *mem = (struct MemoryStruct *) userp;
-
-	char *ptr = realloc(mem->memory, mem->size + realsize + 1);
-	if (ptr == NULL) {
-		printf("ERROR: Not enough memory!\n");
-		return 0;
-	}
-	
-	mem->memory = ptr;
-	memcpy(&(mem->memory[mem->size]), contents, realsize);
-	mem->size += realsize;
-	mem->memory[mem->size] = 0;
-
-	return realsize;
-}
-
 void argscan(int argc, char *argv[], struct control *cl) {
 	int opt;
 	int digit_optind = 0;

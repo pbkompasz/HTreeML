@@ -3,12 +3,29 @@
 #include <string.h>
 #include "util.h"
 
+typedef struct website {
+	// Website address
+	char* address;
+	// 0 - root of website /
+	// 1 - /vehicle
+	// 2 - /vehicle/1
+	int level;
+	// HTML of website
+	char* data;
+	// Internal links 
+	struct website* children;
+	// External links
+	char* step_children;
+} website;
+
+
 struct string {
     char *ptr;
     size_t len;
 };
 
 void get_website_children(char*, char***, size_t*, char***, size_t*);
+char* fetch_website(char *);
 
 void run(struct control *cl) {
     char *result = fetch_website(cl->parent_url);
