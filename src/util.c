@@ -20,7 +20,6 @@ int is_external(char *name) {
     size_t key_words_length = 3;
     int i;
     for(i = 0; i < key_words_length; i++) {
-        //printf("%s %s\n", name, key_words[i]);
         if (strstr(name, key_words[i])) {
             return 1;    
         }
